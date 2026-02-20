@@ -7,3 +7,5 @@ Está disponibilizado tanto o código generalizado para o gráfico de sin(x) e c
 **Código do Gráfico** → *"Código(Sen(x),Cos(x)).py"*
 
 **Animação** → *"Seno e Cosseno (Animação).gif"*
+
+**Exemplos de plotagem** → *"seno_cosseno.png"*
