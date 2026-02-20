@@ -1,17 +1,19 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import sympy as sp
 from matplotlib.animation import FuncAnimation
 
-def F(x):
-    return np.sin(x)
-def G(x):
-    return np.cos(x)
+x = sp.symbols('x')
+f_expr = sp.sin(x)
+g_expr = sp.cos(x)
+
+f = sp.lambdify(x, f_expr, "numpy")
+g = sp.lambdify(x, g_expr, "numpy")
 
 x = np.linspace(0, 3*np.pi, 400)
-y = F(x)
-g = G(x)
 
-A = max(np.max(np.abs(y)), np.max(np.abs(g)))
+
+A = max(np.max(np.abs(f(x))), np.max(np.abs(g(x))))
 
 fig, ax = plt.subplots()
 ax.set_xlim(x.min(), x.max())
@@ -21,9 +23,9 @@ ax.grid()
 line, = ax.plot([], [], color="orange", linewidth=2)
 line2, = ax.plot([], [], color="blue", linewidth=2)
 ax.axhline(0, color="black", linewidth=1)
-ax.legend(["Sen(x)", "Cos(x)"])
+ax.legend([r"$f(x) = " + sp.latex(f_expr) + "$", r"$g(x) = " + sp.latex(g_expr) + "$"])
 
-ax.set_title("Gráfico da função seno e cosseno")
+ax.set_title("Gráfico de comparação")
 text = ax.text(0.02, 0.45, "", transform=ax.transAxes)
 
 def init():
@@ -34,8 +36,8 @@ def init():
 
 
 def update(frame):
-    line.set_data(x[:frame], y[:frame])
-    line2.set_data(x[:frame], g[:frame])
+    line.set_data(x[:frame], f(x[:frame]))
+    line2.set_data(x[:frame], g(x[:frame]))
     text.set_text(f"x = {x[frame]:.2f}")
     return line, line2, text
 
